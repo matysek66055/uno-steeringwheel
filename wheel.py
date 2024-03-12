@@ -6,7 +6,7 @@ import os
 gamepad = vg.VDS4Gamepad()
 
 # Serial port configuration
-ser = serial.Serial('COM2', 22500, timeout=1)  # Change 'COM2' to your Arduino port and update baud rate
+ser = serial.Serial('COM2', 30000, timeout=1)  # Change 'COM2' to your Arduino port and update baud rate
 
 # Initialize previous state variables
 prev_x_value = 0.0
@@ -15,6 +15,7 @@ prev_gas_value = 0.0
 
 try:
     while True:
+        ser.write(b'LED = 1\n')  # Send the command to turn off the LED
         # Read a line from the serial port
         serial_data = ser.readline().decode('utf-8').strip()
 
@@ -92,7 +93,6 @@ try:
                 prev_x_value = x_value
                 prev_brake_value = brake_value
                 prev_gas_value = gas_value
-
             except ValueError as e:
                 print(f"Error parsing values: {e}")
 
